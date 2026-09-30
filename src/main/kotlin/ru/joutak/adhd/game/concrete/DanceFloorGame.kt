@@ -154,7 +154,7 @@ class DanceFloorGame : Game() {
 
     fun award(player: Player){
         scores[player.uniqueId] = scores[player.uniqueId]!! + awardPoints
-        world.getBlockAt(player.x.toInt(), 0, player.z.toInt()).type = neutral_material
+        world.getBlockAt(player.x.toInt(), ly, player.z.toInt()).type = neutral_material
         player.sendMessage(Component.text("Ты наступил на зелёную клетку, сейчас у тебя " + scores[player.uniqueId] + " очков").color(NamedTextColor.GREEN))
         if (scores[player.uniqueId]!! >= winPoints){
             finish()
@@ -163,7 +163,7 @@ class DanceFloorGame : Game() {
 
     fun fine(player: Player){
         scores[player.uniqueId] = scores[player.uniqueId]!! - finePoints
-        world.getBlockAt(player.x.toInt(), 0, player.z.toInt()).type = neutral_material
+        world.getBlockAt(player.x.toInt(), ly, player.z.toInt()).type = neutral_material
         player.sendMessage(Component.text("Ты наступил на красную клетку, сейчас у тебя " + scores[player.uniqueId] + " очков").color(NamedTextColor.RED))
     }
 }
