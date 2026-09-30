@@ -101,8 +101,9 @@ class DanceFloorGame : Game() {
     }
 
     override fun summarize(): Map<UUID, Double> {
-        result[scores.maxBy{it.value}.key] = 1.0
         if (state != GameState.FINISH) finish()
+        if (scores.values.toSet().toMutableSet().size == 1) return result
+        result[scores.maxBy{it.value}.key] = 1.0
         return result
     }
 
