@@ -35,6 +35,7 @@ class DanceFloorGame : Game() {
     var lz: Int = 0
     var lx: Int = 0
     var ly: Int = 0
+    var critical_y: Int = 0
     var result = mutableMapOf<UUID, Double>()
     var scores = mutableMapOf<UUID, Int>()
     var prevLoc = mutableMapOf<UUID, Pair<Int, Int>>()
@@ -66,6 +67,7 @@ class DanceFloorGame : Game() {
         awardPoints = meta.green_points
         finePoints = meta.red_penalty
         winPoints = meta.win_points
+        critical_y = meta.critical_y
         generateMap()
 
         world.setGameRule(GameRules.IMMEDIATE_RESPAWN, true)

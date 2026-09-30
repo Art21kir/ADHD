@@ -24,3 +24,4 @@ meta:
     neutral: LIGHT_GRAY_CONCRETE
     green: LIME_CONCRETE
     red: RED_CONCRETE
+  critical_y: -5
