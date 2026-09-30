@@ -135,8 +135,8 @@ class DanceFloorGame : Game() {
         val x: Int = Random.nextInt(width)
         val z: Int = Random.nextInt(length)
         if (Random.nextDouble(0.0, 1.0) <= chance) type = green_material
-        world.getBlockAt(x + lx + 1, 0, z + lz + 1).type = type
-        world.getBlockAt(-x  + lx - 1, 0, z + lz + 1).type = type
+        world.getBlockAt(x + lx + 1, ly, z + lz + 1).type = type
+        world.getBlockAt(-x  + lx - 1, ly, z + lz + 1).type = type
     }
 
     fun checkBlock(player: Player){
