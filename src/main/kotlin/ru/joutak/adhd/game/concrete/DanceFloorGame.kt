@@ -11,6 +11,7 @@ import ru.joutak.adhd.world.Arena
 import ru.joutak.adhd.world.SpawnPoint
 import org.bukkit.entity.Player
 import ru.joutak.adhd.ADHDPlugin
+import ru.joutak.adhd.listener.FreezeListener
 import kotlin.random.Random
 
 import java.util.*
@@ -33,6 +34,7 @@ class DanceFloorGame : Game() {
     var winPoints: Int = 0
     var lz: Int = 0
     var lx: Int = 0
+    var ly: Int = 0
     var result = mutableMapOf<UUID, Double>()
     var scores = mutableMapOf<UUID, Int>()
     var prevLoc = mutableMapOf<UUID, Pair<Int, Int>>()
@@ -45,10 +47,13 @@ class DanceFloorGame : Game() {
         world = Bukkit.getWorld(worldName)!!
         this.arena = arena
         this.members = members
-        var spawns = arena.spawnPoints.toMutableSet() - mutableSetOf(arena.spawnPoints[2])
-        lx = arena.spawnPoints[2].x.toInt()
-        lz = arena.spawnPoints[2].z.toInt()
-        generateMap()
+        var spawns = arena.spawnPoints.toMutableSet()
+        for (spawn in spawns){
+            lx += spawn.x.toInt()
+        }
+        lx /= 2
+        ly = arena.spawnPoints[0].y.toInt() - 1
+        lz = arena.spawnPoints[0].z.toInt() - 1
 
         val meta = modeMeta as DanceFloorModeMeta
         width = meta.width
@@ -69,13 +74,14 @@ class DanceFloorGame : Game() {
 
         for (uuid in members){
             val player = Bukkit.getPlayer(uuid) ?: continue
-            player.gameMode = GameMode.SPECTATOR
+            player.gameMode = GameMode.ADVENTURE
             val spawn = spawns.random()
             spawns -= mutableSetOf(spawn)
-            scores[player.uniqueId] = 0
-            respawns[player.uniqueId] = Location(world, spawn.x, spawn.y, spawn.z)
+            FreezeListener.freeze[uuid] = true
+            Bukkit.getScheduler().runTaskLater(ADHDPlugin.instance, Runnable { FreezeListener.freeze[uuid] = false }, 60L)
             spawnPlayer(player, spawn)
-            player.gameMode = GameMode.ADVENTURE
+            respawns[player.uniqueId] = Location(world, player.x, player.y, player.z)
+            scores[player.uniqueId] = 0
         }
         state = GameState.RUN
     }
@@ -95,30 +101,32 @@ class DanceFloorGame : Game() {
     }
 
     override fun summarize(): Map<UUID, Double> {
+        result[scores.maxBy{it.value}.key] = 1.0
         if (state != GameState.FINISH) finish()
         return result
     }
 
     fun spawnPlayer(player: Player, spawn: SpawnPoint?){
         if (spawn == null) return
-        player.teleport(Location(world, spawn.x, spawn.y, spawn.z, spawn.yaw, spawn.pitch))
+        var delta: Int = if (spawn.x > lx)  1 else -1
+        player.teleport(Location(world, spawn.x + width / 2 * delta, spawn.y, spawn.z + length / 2, spawn.yaw, spawn.pitch))
         prevLoc[player.uniqueId] = Pair(player.x.toInt(), player.z.toInt())
     }
 
     fun generateMap(){
         for (x in 1..width){
             for (z in 1..length){
-                world.getBlockAt(lx + x, 0, lz + z).type = neutral_material
-                world.getBlockAt(lx -x, 0, lz + z).type = neutral_material
-                world.getBlockAt(lx, 1, lz + z).type = Material.BARRIER
-                world.getBlockAt(lx, 2,  lz + z).type = Material.BARRIER
+                world.getBlockAt(lx + x, ly, lz + z).type = neutral_material
+                world.getBlockAt(lx -x, ly, lz + z).type = neutral_material
+                world.getBlockAt(lx, ly + 1, lz + z).type = Material.BARRIER
+                world.getBlockAt(lx, ly + 2,  lz + z).type = Material.BARRIER
             }
         }
         for (z in 0..3){
-            world.getBlockAt(lx, 1, lz - z).type = Material.BARRIER
-            world.getBlockAt(lx, 2, lz - z).type = Material.BARRIER
-            world.getBlockAt(lx, 1, lz + length + z).type = Material.BARRIER
-            world.getBlockAt(lx, 2, lz + length + z).type = Material.BARRIER
+            world.getBlockAt(lx, ly + 1, lz - z).type = Material.BARRIER
+            world.getBlockAt(lx, ly + 2, lz - z).type = Material.BARRIER
+            world.getBlockAt(lx, ly + 1, lz + length + z).type = Material.BARRIER
+            world.getBlockAt(lx, ly + 2, lz + length + z).type = Material.BARRIER
         }
     }
 
@@ -147,7 +155,6 @@ class DanceFloorGame : Game() {
         scores[player.uniqueId] = scores[player.uniqueId]!! + awardPoints
         world.getBlockAt(player.x.toInt(), 0, player.z.toInt()).type = neutral_material
         player.sendMessage(Component.text("Ты наступил на зелёную клетку, сейчас у тебя " + scores[player.uniqueId] + " очков").color(NamedTextColor.GREEN))
-        dynamic_result()
         if (scores[player.uniqueId]!! >= winPoints){
             finish()
         }
@@ -157,11 +164,5 @@ class DanceFloorGame : Game() {
         scores[player.uniqueId] = scores[player.uniqueId]!! - finePoints
         world.getBlockAt(player.x.toInt(), 0, player.z.toInt()).type = neutral_material
         player.sendMessage(Component.text("Ты наступил на красную клетку, сейчас у тебя " + scores[player.uniqueId] + " очков").color(NamedTextColor.RED))
-        dynamic_result()
-    }
-
-    fun dynamic_result(){
-        result = mutableMapOf<UUID, Double>()
-        result[scores.maxBy{it.value}.key] = 1.0
     }
 }

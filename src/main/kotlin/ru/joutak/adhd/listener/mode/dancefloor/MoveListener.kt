@@ -13,7 +13,7 @@ class MoveListener: Listener {
     fun onPlayerMove(event: PlayerMoveEvent){
         val game = TournamentManager.getGame(event.player)
         if (game != null && game.getGameState() == GameState.RUN && game is DanceFloorGame){
-            if (event.player.y == 1.0) game.checkBlock(event.player)
+            if (event.player.y == game.ly + 1.0) game.checkBlock(event.player)
         }
     }
 }
