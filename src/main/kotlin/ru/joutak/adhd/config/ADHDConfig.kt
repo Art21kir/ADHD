@@ -8,9 +8,11 @@ import ru.joutak.adhd.config.map.loader.concrete.MemoryMapMetaLoader
 import ru.joutak.adhd.config.map.loader.concrete.PVPMapMetaLoader
 import ru.joutak.adhd.config.map.loader.concrete.ParkourMapMetaLoader
 import ru.joutak.adhd.config.map.loader.concrete.PillarsMapMetaLoader
+import ru.joutak.adhd.config.map.loader.concrete.RGLightMapMetaLoader
 import ru.joutak.adhd.config.map.loader.concrete.TntBowsMapMetaLoader
 import ru.joutak.adhd.config.map.loader.concrete.VentilatorMapMetaLoader
 import ru.joutak.adhd.config.map.meta.MapMeta
+import ru.joutak.adhd.game.concrete.RGLightGame
 import ru.joutak.adhd.game.mode.Mode
 import ru.joutak.adhd.game.mode.loader.concrete.CasinoModeMetaLoader
 import ru.joutak.adhd.game.mode.loader.concrete.KnightsModeMetaLoader
@@ -36,6 +38,7 @@ object ADHDConfig {
         Pair("Memory", null),
         Pair("TntBows", TntBowsModeMetaLoader()),
         Pair("Casino", CasinoModeMetaLoader()),
+        Pair("RGLight", null),
         Pair("Parkour", null)
     )
 
@@ -180,6 +183,7 @@ object ADHDConfig {
         mapMetaLoaders["pillars"] = PillarsMapMetaLoader()
         mapMetaLoaders["ventilator"] = VentilatorMapMetaLoader()
         mapMetaLoaders["memory"] = MemoryMapMetaLoader()
+        mapMetaLoaders["rglight"] = RGLightMapMetaLoader()
         mapMetaLoaders["parkour"] = ParkourMapMetaLoader()
         mapMetaLoaders["tnt_bows"] = TntBowsMapMetaLoader()
     }
