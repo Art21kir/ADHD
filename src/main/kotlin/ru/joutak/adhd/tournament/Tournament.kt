@@ -22,6 +22,7 @@ import ru.joutak.adhd.game.concrete.PillarsGame
 import ru.joutak.adhd.game.concrete.RGLightGame
 import ru.joutak.adhd.game.concrete.RPSGame
 import ru.joutak.adhd.game.concrete.SnipersGame
+import ru.joutak.adhd.game.concrete.OvertakeGame
 import ru.joutak.adhd.game.concrete.TntBowsGame
 import ru.joutak.adhd.listener.ArenaSwitchListener
 import ru.joutak.adhd.listener.KeepInventoryListener
@@ -343,6 +344,7 @@ class Tournament(
                     "Pillars" -> PillarsGame()
                     "Knights" -> KnightsGame()
                     "Snipers" -> SnipersGame()
+                    "Overtake" -> OvertakeGame()
                     "RGLight" -> RGLightGame()
                     "Parkour" -> ParkourGame()
                     "TntBows" -> TntBowsGame()

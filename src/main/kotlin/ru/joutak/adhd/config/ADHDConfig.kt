@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import ru.joutak.adhd.ADHDPlugin
 import ru.joutak.adhd.config.map.loader.MapMetaLoader
 import ru.joutak.adhd.config.map.loader.concrete.MemoryMapMetaLoader
+import ru.joutak.adhd.config.map.loader.concrete.OvertakeMapMetaLoader
 import ru.joutak.adhd.config.map.loader.concrete.PVPMapMetaLoader
 import ru.joutak.adhd.config.map.loader.concrete.ParkourMapMetaLoader
 import ru.joutak.adhd.config.map.loader.concrete.PillarsMapMetaLoader
@@ -16,6 +17,7 @@ import ru.joutak.adhd.game.concrete.RGLightGame
 import ru.joutak.adhd.game.mode.Mode
 import ru.joutak.adhd.game.mode.loader.concrete.CasinoModeMetaLoader
 import ru.joutak.adhd.game.mode.loader.concrete.KnightsModeMetaLoader
+import ru.joutak.adhd.game.mode.loader.concrete.OvertakeModeMetaLoader
 import ru.joutak.adhd.game.mode.loader.concrete.PVPModeMetaLoader
 import ru.joutak.adhd.game.mode.loader.concrete.PillarsModeMetaLoader
 import ru.joutak.adhd.game.mode.loader.concrete.SnipersModeMetaLoader
@@ -36,8 +38,9 @@ object ADHDConfig {
         Pair("Pillars", PillarsModeMetaLoader()),
         Pair("RPS", null),
         Pair("Memory", null),
-        Pair("TntBows", TntBowsModeMetaLoader()),
         Pair("Casino", CasinoModeMetaLoader()),
+        Pair("Overtake", OvertakeModeMetaLoader()),
+        Pair("TntBows", TntBowsModeMetaLoader()),
         Pair("RGLight", null),
         Pair("Parkour", null)
     )
@@ -183,6 +186,7 @@ object ADHDConfig {
         mapMetaLoaders["pillars"] = PillarsMapMetaLoader()
         mapMetaLoaders["ventilator"] = VentilatorMapMetaLoader()
         mapMetaLoaders["memory"] = MemoryMapMetaLoader()
+        mapMetaLoaders["overtake"] = OvertakeMapMetaLoader()
         mapMetaLoaders["rglight"] = RGLightMapMetaLoader()
         mapMetaLoaders["parkour"] = ParkourMapMetaLoader()
         mapMetaLoaders["tnt_bows"] = TntBowsMapMetaLoader()
