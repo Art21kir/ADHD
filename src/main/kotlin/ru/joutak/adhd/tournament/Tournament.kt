@@ -13,12 +13,13 @@ import ru.joutak.adhd.config.ADHDConfig
 import ru.joutak.adhd.game.Game
 import ru.joutak.adhd.game.GameInfo
 import ru.joutak.adhd.game.GameState
-import ru.joutak.adhd.game.concrete.CasinoGame
+import ru.joutak.adhd.game.concrete.casino.CasinoGame
 import ru.joutak.adhd.game.concrete.KnightsGame
 import ru.joutak.adhd.game.concrete.MemoryGame
 import ru.joutak.adhd.game.concrete.PVPGame
 import ru.joutak.adhd.game.concrete.ParkourGame
 import ru.joutak.adhd.game.concrete.PillarsGame
+import ru.joutak.adhd.game.concrete.RGLightGame
 import ru.joutak.adhd.game.concrete.RPSGame
 import ru.joutak.adhd.game.concrete.SnipersGame
 import ru.joutak.adhd.game.concrete.OvertakeGame
@@ -344,6 +345,7 @@ class Tournament(
                     "Knights" -> KnightsGame()
                     "Snipers" -> SnipersGame()
                     "Overtake" -> OvertakeGame()
+                    "RGLight" -> RGLightGame()
                     "Parkour" -> ParkourGame()
                     "TntBows" -> TntBowsGame()
                     else -> error("No such mode...")
