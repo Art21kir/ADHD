@@ -1,7 +1,6 @@
 package ru.joutak.adhd
 
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
-import org.apache.logging.log4j.core.LifeCycle
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import ru.joutak.adhd.command.ADHDCommand
@@ -43,10 +42,12 @@ class ADHDPlugin : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.snipers.FireListener(), instance)
         Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.knights.FireListener(), instance)
         Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.rps.GuiListener(), instance)
-        Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.casino.ChatListener(), instance)
+        Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.casino.GuiListener(), instance)
+        Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.casino.InteractListener(), instance)
         Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.memory.HitListener(), instance)
         Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.rglight.PlayerMoveListener(), instance)
         Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.rglight.FinishLineListener(), instance)
+        Bukkit.getPluginManager().registerEvents(ru.joutak.adhd.listener.mode.tnt_bows.FireListener(), instance)
 
         lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS) { event ->
             event.registrar().register(

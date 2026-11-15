@@ -13,6 +13,7 @@ import ru.joutak.adhd.game.concrete.PVPGame
 import ru.joutak.adhd.game.concrete.ParkourGame
 import ru.joutak.adhd.game.concrete.PillarsGame
 import ru.joutak.adhd.game.concrete.SnipersGame
+import ru.joutak.adhd.game.concrete.TntBowsGame
 import ru.joutak.adhd.tournament.TournamentManager
 import ru.joutak.adhd.world.SpawnPoint
 import java.util.UUID
@@ -74,9 +75,19 @@ class GameDeathRespawnListener : Listener {
                 game.finish()
             }
 
+            is TntBowsGame -> {
+                game.calculateResult(event.player)
+
+                respawns[event.player.uniqueId] = getDefaultSpawn(event.player)
+
+                game.finish()
+            }
+
             is ParkourGame -> {
                 respawns[event.player.uniqueId] = game.spawns[event.player.uniqueId]?.get(game.spawns[event.player.uniqueId]?.lastIndex ?: 0)
             }
+
+            else -> respawns[event.player.uniqueId] = getDefaultSpawn(event.player)
         }
     }
 
